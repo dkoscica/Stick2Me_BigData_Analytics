@@ -5,10 +5,18 @@ Created on Tue Jan 31 20:25:37 2017
 @author: Dominik
 """
 
+from Util import PrintHelper 
 import pymongo
 from pymongo import MongoClient
 import pprint
 import datetime
+from enum import Enum
+
+class TweetDocument(Enum):
+     created_at = "created_at"
+     user_name = "user_name"
+     screen_name = "screen_name"
+     text = "text"
 
 class PyMongoWrapper:
     
@@ -27,8 +35,9 @@ class PyMongoWrapper:
         self.client = MongoClient(self.CONNECTION_URI)
         self.database = self.client[self.DATABASE_NAME]
         self.collection = self.database[self.COLLECTION_NAME]
-        self.print_collection(self.COLLECTION_NAME)
-        print("Database connected!")
+
+        PrintHelper.show_header("Database connected!")
+        self.print_collection_names()
             
     """
     Insert all tweets into one MongoDB collection, 
@@ -47,25 +56,51 @@ class PyMongoWrapper:
         return tweetDocuments
     
     def create_tweet_document(self, tweet):
-        return {"created_at": tweet.created_at,
-                "name": tweet.user.name,
-                "screen_name:": tweet.user.screen_name,
-                "text:": tweet.text
+        return {TweetDocument.created_at.value : tweet.created_at,
+                TweetDocument.user_name.value : tweet.user.name,
+                TweetDocument.screen_name.value : tweet.user.screen_name,
+                TweetDocument.text.value : tweet.text
                 }
-    
+                
+    def get_collection_by_name(self, collection_name):  
+        return self.database[collection_name]
+                
     """
     Print methods
     """
+    def print_collection_names(self):
+        PrintHelper.show_header("Collection names:")
+        collection_names = self.database.collection_names(include_system_collections=False)
+        for name in collection_names:
+            print(name)
+        
     def print_collection(self, collection_name):
-        show_header("Collections")
-        pprint.pprint(self.collection)
+        PrintHelper.show_header("Collection name:" + collection_name)
+        collection = self.get_collection_by_name(collection_name)
+        print("<ul>")
+        for item in collection.find():
+            #self.print_one_tweet(item)
+            self.print_one_tweet_in_html_format(item)
+        print("</ul>")
 
-    def print_one_tweet(self):
-        show_header("Find one Tweet")
-        user = self.collection.find_one()
-        pprint.pprint(user)
+    def print_one_tweet(self, tweet):
+        print("Date:", tweet[TweetDocument.created_at.value])
+        print("Name:", tweet[TweetDocument.user_name.value])
+        print("Screen name:", tweet[TweetDocument.screen_name.value])
+        print("Text:", tweet[TweetDocument.text.value])
+        print()
+        
+    def print_one_tweet_in_html_format(self, tweet):
+        print("  <li>")
+        print("    <b>Date:</b>", tweet[TweetDocument.created_at.value], "<br>")
+        print("    <b>Name:</b>", tweet[TweetDocument.user_name.value], "<br>")
+        print("    <b>Screen name:</b>", tweet[TweetDocument.screen_name.value], "<br>")
+        print("    <b>Text:</b>", tweet[TweetDocument.text.value], "<br>")
+        print("  </li>")
+        print("  <br>")
 
     def print_all_collection_tweets(self):
-        show_header("All collection Tweets")
+        PrintHelper.show_header("All collection Tweets")
         for item in self.collection.find():
-            pprint.pprint(item)
+            print_tweet(item)
+            #pprint.pprint(item)

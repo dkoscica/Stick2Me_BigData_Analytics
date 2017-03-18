@@ -4,7 +4,7 @@ Created on Sun Jan 29 17:34:41 2017
 
 @author: Dominik
 """
-
+from Util import PrintHelper
 import tweepy
 
 class TweepyWrapper:
@@ -34,7 +34,7 @@ class TweepyWrapper:
     Print methods
     """
     def print_user_information(self):
-        show_header("Get all the information about @TVZ_dkoscica")
+        PrintHelper.show_header("Get all the information about @TVZ_dkoscica")
         user = self.api.me()
         print_user(user)
         
@@ -55,12 +55,12 @@ class TweepyWrapper:
         return self.__mostInfluentialFollowers
         
     def print_all_my_followers(self):
-        show_header("All my followers")
+        PrintHelper.show_header("All my followers")
         for follower in self.get_my_followers():
             print_user(follower)
             
     def print_most_influential_followers(self):
-        show_header("Top 10 most influential followers")
+        PrintHelper.show_header("Top 10 most influential followers")
         for follower in self.get_most_influential_followers()[:10]:
             print_user(follower)  
      
@@ -74,7 +74,7 @@ class TweepyWrapper:
         return self.__allMyTweets
         
     def get_all_tweets_from_user(self, screen_name):
-        return self.api.user_timeline(screen_name = screen_name, count=500) 
+        return self.api.user_timeline(screen_name = screen_name, count=1500) 
         
     def get_all_tweets_from_my_followers(self):
         if not self.__allTweetsFromMyFollowers:
@@ -86,27 +86,41 @@ class TweepyWrapper:
             
         return self.__allTweetsFromMyFollowers 
             
-    def get_all_tweets_which_contain_Stick2Me(self):
+    def get_follower_tweets_which_contain_Stick2Me(self):
+        keywords = ["Stick2Me", "stick2me", "stick", "Stick", "2me", "2Me"]
         tweetsThatContainStick2Me = []
         for tweet in self.get_all_tweets_from_my_followers():
-            if "Stick2Me" in tweet.text:
+            if any(word in tweet.text for word in keywords):
+                tweetsThatContainStick2Me.append(tweet)
+        return tweetsThatContainStick2Me
+        
+    def get_my_tweets_which_contain_Stick2Me(self):
+        keywords = ["Stick2Me", "stick2me", "stick", "Stick", "2me", "2Me"]
+        tweetsThatContainStick2Me = []
+        for tweet in self.get_all_my_tweets():
+            if any(word in tweet.text for word in keywords):
                 tweetsThatContainStick2Me.append(tweet)
         return tweetsThatContainStick2Me
 
     def print_all_tweets_from_me(self):
-        show_header("All tweets from @TVZ_dkoscica")
+        PrintHelper.show_header("All tweets from @TVZ_dkoscica")
         for tweet in self.get_all_my_tweets():
             print_tweet(tweet)
             
     def print_retweets_of_me(self):
         retweets = self.api.retweets_of_me()
         numberOfRetweets = str(len(retweets))
-        show_header("Retweets of me\nNumber of retweets: "  + numberOfRetweets)
+        PrintHelper.show_header("Retweets of me\nNumber of retweets: "  + numberOfRetweets)
         for tweet in retweets:
             print_tweet(tweet)
                            
     def print_all_tweets_which_contain_Stick2Me(self):
-        #+ str(len(self.get_all_tweets_which_contain_Stick2Me_or_TVZ_dkoscica))
-        show_header("Tweets that contain Stick2Me or @TVZ_dkoscica\nNumber of tweets: ")
-        for tweet in self.get_all_tweets_which_contain_Stick2Me():
+        allFollowerTweetsWhichContainStick2Me = self.get_follower_tweets_which_contain_Stick2Me()
+        myTweetsWhichContainStick2Me = self.get_my_tweets_which_contain_Stick2Me()
+        
+        allTweetsWhichContainStick2Me = allFollowerTweetsWhichContainStick2Me + myTweetsWhichContainStick2Me
+        allTweetsWhichContainStick2MeSortedByDate = sorted(allTweetsWhichContainStick2Me, key=lambda tweet: tweet.created_at, reverse = True)
+        
+        show_header("Tweets that contain Stick2Me or @TVZ_dkoscica\nNumber of tweets: " + str(len(allTweetsWhichContainStick2MeSortedByDate)))
+        for tweet in allTweetsWhichContainStick2MeSortedByDate:
             print_tweet(tweet)
