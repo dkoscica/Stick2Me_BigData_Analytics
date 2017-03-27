@@ -4,7 +4,7 @@ Created on Sun Jan 29 17:34:41 2017
 
 @author: Dominik
 """
-from Util import PrintHelper
+from util import PrintHelper 
 import tweepy
 
 class TweepyWrapper:
@@ -14,6 +14,8 @@ class TweepyWrapper:
     CONSUMER_SECRET = "I6RvI3tFjnd5XL1BgfDNqqJ1bVSXinBYooTOGJpg7KCug9mlLt"
     ACCESS_TOKEN = "810627882104057856-nxELiESEiHYvZCbymNDI98us80A2Ayo"
     ACCESS_TOKEN_SECRET = "1uAWrovjiDQvztHfiG9K6C94MrIMs3GH1dncuJO5DXiAW"
+    
+    STICK2_ME_KEYWORDS = ["#Stick2Me", "Stick2Me", "stick2me", "stick", "Stick", "2me", "2Me"]
     
     #Members
     __followers = []
@@ -34,9 +36,9 @@ class TweepyWrapper:
     Print methods
     """
     def print_user_information(self):
-        PrintHelper.show_header("Get all the information about @TVZ_dkoscica")
+        PrintHelper.print_header("Get all the information about @TVZ_dkoscica")
         user = self.api.me()
-        print_user(user)
+        PrintHelper.print_user(user)
         
     """
     Follower methods
@@ -55,14 +57,14 @@ class TweepyWrapper:
         return self.__mostInfluentialFollowers
         
     def print_all_my_followers(self):
-        PrintHelper.show_header("All my followers")
+        PrintHelper.print_header("All my followers")
         for follower in self.get_my_followers():
-            print_user(follower)
+            PrintHelper.print_user(follower)
             
     def print_most_influential_followers(self):
-        PrintHelper.show_header("Top 10 most influential followers")
+        PrintHelper.print_header("Top 10 most influential followers")
         for follower in self.get_most_influential_followers()[:10]:
-            print_user(follower)  
+           PrintHelper. print_user(follower)  
      
     """
     Tweets methods
@@ -75,7 +77,7 @@ class TweepyWrapper:
         
     def get_all_tweets_from_user(self, screen_name):
         return self.api.user_timeline(screen_name = screen_name, count=1500) 
-        
+                
     def get_all_tweets_from_my_followers(self):
         if not self.__allTweetsFromMyFollowers:
             #allTweetsFromMyFollowers.append(allMyTweets)
@@ -87,32 +89,30 @@ class TweepyWrapper:
         return self.__allTweetsFromMyFollowers 
             
     def get_follower_tweets_which_contain_Stick2Me(self):
-        keywords = ["Stick2Me", "stick2me", "stick", "Stick", "2me", "2Me"]
         tweetsThatContainStick2Me = []
         for tweet in self.get_all_tweets_from_my_followers():
-            if any(word in tweet.text for word in keywords):
+            if any(word in tweet.text for word in STICK2_ME_KEYWORDS):
                 tweetsThatContainStick2Me.append(tweet)
         return tweetsThatContainStick2Me
         
     def get_my_tweets_which_contain_Stick2Me(self):
-        keywords = ["Stick2Me", "stick2me", "stick", "Stick", "2me", "2Me"]
         tweetsThatContainStick2Me = []
         for tweet in self.get_all_my_tweets():
-            if any(word in tweet.text for word in keywords):
+            if any(word in tweet.text for word in STICK2_ME_KEYWORDS):
                 tweetsThatContainStick2Me.append(tweet)
         return tweetsThatContainStick2Me
 
     def print_all_tweets_from_me(self):
-        PrintHelper.show_header("All tweets from @TVZ_dkoscica")
+        PrintHelper.print_header("All tweets from @TVZ_dkoscica")
         for tweet in self.get_all_my_tweets():
-            print_tweet(tweet)
+            PrintHelper.print_tweet(tweet)
             
     def print_retweets_of_me(self):
         retweets = self.api.retweets_of_me()
         numberOfRetweets = str(len(retweets))
-        PrintHelper.show_header("Retweets of me\nNumber of retweets: "  + numberOfRetweets)
+        PrintHelper.print_header("Retweets of me\nNumber of retweets: "  + numberOfRetweets)
         for tweet in retweets:
-            print_tweet(tweet)
+            PrintHelper.print_tweet(tweet)
                            
     def print_all_tweets_which_contain_Stick2Me(self):
         allFollowerTweetsWhichContainStick2Me = self.get_follower_tweets_which_contain_Stick2Me()
@@ -121,6 +121,6 @@ class TweepyWrapper:
         allTweetsWhichContainStick2Me = allFollowerTweetsWhichContainStick2Me + myTweetsWhichContainStick2Me
         allTweetsWhichContainStick2MeSortedByDate = sorted(allTweetsWhichContainStick2Me, key=lambda tweet: tweet.created_at, reverse = True)
         
-        show_header("Tweets that contain Stick2Me or @TVZ_dkoscica\nNumber of tweets: " + str(len(allTweetsWhichContainStick2MeSortedByDate)))
+        PrintHelper.print_header("Tweets that contain Stick2Me or @TVZ_dkoscica\nNumber of tweets: " + str(len(allTweetsWhichContainStick2MeSortedByDate)))
         for tweet in allTweetsWhichContainStick2MeSortedByDate:
-            print_tweet(tweet)
+            PrintHelper.print_tweet(tweet)

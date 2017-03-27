@@ -5,24 +5,33 @@ Created on Sun Jan 29 23:37:43 2017
 @author: Dominik
 """
 
-"""
-Print methods
-"""
+from enum import Enum
 
+class TweetDocument(Enum):
+     created_at = "created_at"
+     user_name = "user_name"
+     text = "text"
+     vertex1 = "screen_name"
+     vertex2 = "in_reply_to_screen_name"
+ 
 class PrintHelper(object):
     
-    def show_header(text):
+    def print_header(text):
         print("")
         print("###############################################")
         print(text)
         print("###############################################")
     
+    def print_footer():
+        print("###############################################\n")
+    
     def print_tweet(tweet):
         print("Date:", tweet.created_at)
         print("Name:", tweet.user.name)
-        print("Screen name:", tweet.user.screen_name)
         print("Text:", tweet.text)
-        print()
+        print("Vertex1:", tweet.user.screen_name)
+        print("Vertex2:", tweet.in_reply_to_screen_name)
+        print()       
   
     def print_user(user):
         print("Id:", user.id)

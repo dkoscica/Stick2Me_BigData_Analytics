@@ -5,25 +5,29 @@ Created on Tue Jan 31 23:13:50 2017
 @author: Dominik
 """
 
-from TweepyWrapper import TweepyWrapper
-from PyMongoWrapper import PyMongoWrapper
+from util import PrintHelper 
+from tweepy_wrapper import TweepyWrapper
+from pymongo_wrapper import PyMongoWrapper
+from nltk_wrapper import NLTKWrapper
+from sna_wrapper import SNAWrapper
 
 import plotly.plotly as py
 import plotly.graph_objs as go
+
+import nltk
 
 def main():
 
     tweepyWrapper = TweepyWrapper()
     
-    #tweepyWrapper.print_user_information()
+    tweepyWrapper.print_user_information()
     
-    #tweepyWrapper.print_all_my_followers()
-    #tweepyWrapper.print_most_influential_followers()
+    tweepyWrapper.print_all_my_followers()
+    tweepyWrapper.print_most_influential_followers()
     
-    #tweepyWrapper.print_all_tweets_from_me()
-    #tweepyWrapper.print_retweets_of_me()
-
-    
+    tweepyWrapper.print_all_tweets_from_me()
+    tweepyWrapper.print_retweets_of_me()
+   
     #allFollowerTweetsWhichContainStick2Me = tweepyWrapper.get_follower_tweets_which_contain_Stick2Me()
     #tweepyWrapper.print_all_tweets_which_contain_Stick2Me()
 
@@ -31,6 +35,9 @@ def main():
     #pyMongoWrapper.insert_all_tweets(allFollowerTweetsWhichContainStick2Me)   
     #pyMongoWrapper.print_all_collection_tweets()
     
+    """
+    Basic data analytics
+    """
     #pyMongoWrapper.print_collection("tweets.From_2016_12_23_To_2016_12_30")
     #pyMongoWrapper.print_collection("tweets.From_2017_01_01_To_2017_01_08")
     #pyMongoWrapper.print_collection("tweets.From_2017_01_08_To_2017_01_15")
@@ -40,34 +47,25 @@ def main():
     #pyMongoWrapper.print_collection("tweets.From_2017_02_01_To_2017_02_08")
     #pyMongoWrapper.print_collection("tweets.From_2017_02_08_To_2017_02_15")
 
-
-
-
+    """"
+    NLTK
     
-
-
+    nltkWrapper = NLTKWrapper()
     
-    '''
-    collection = pyMongoWrapper.get_collection_by_name("tweets.From_2017_01_01_To_2017_01_08")
+    collectionNames = pyMongoWrapper.get_all_collection_names()
+    for collectioName in collectionNames:
+        PrintHelper.print_header("Collection name: " + collectioName)
+        tweetTextSummaryFromCollection = pyMongoWrapper.get_tweet_text_summary_for_collection(collectioName)
+        nltkWrapper.analize_text(tweetTextSummaryFromCollection) 
+        """
+            
+    #TODO replace with database vertex data
+    vertexes = pyMongoWrapper.get_tweet_vertexes_for_collection("tweets.From_2017_01_01_To_2017_01_08")     
+            
+    graph = SNAWrapper(vertexes)
+    graph.print_basic_graph_info()
+    graph.print_additional_info()
+    graph.draw_graph()
     
-                x=['23.12.2016-31.12.2016', '01.01.2017-01.08.2017', '13.01.2017', '20.01.2017', '27.01.2017', '03.02.2017', '10.02.2017', '17.02.2017'],
-
-    
-    
-    print("Size"+ str(collection.count()))
-    data = [go.Bar(
-            x=['23.12.2016-31.12.2016', 
-               '01.01.2017-08.01.2017',
-               '08.01.2017-15.01.2017',
-               '15.01.2017-22.01.2017',
-               '22.01.2017-31.01.2017',
-               '01.02.2017-08.02.2017',
-               '08.02.2017-15.02.2017'
-               '15.02.2017-22.02.2017'],
-            y=[2, 7, 12, 14, 9, 16, 2, 0]
-    )]
-
-py.iplot(data, filename='basic-bar')
-'''
-       
+           
 if __name__ == "__main__": main()
