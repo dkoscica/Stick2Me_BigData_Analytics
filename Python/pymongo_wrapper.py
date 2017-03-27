@@ -112,12 +112,12 @@ class PyMongoWrapper:
         print("Vertex2:", tweet[TweetDocument.vertex2.name])
         print()   
         
-    def print_tweet_in_html_format(tweet):
+    def print_tweet_in_html_format(self, tweet):
         print("  <li>")
         print("    <b>Date:</b>", tweet[TweetDocument.created_at.name], "<br>")
         print("    <b>Name:</b>", tweet[TweetDocument.user_name.name], "<br>")
         print("    <b>Text:</b>", tweet[TweetDocument.text.name], "<br>")
         print("    <b>Vertex1:</b>", tweet[TweetDocument.vertex1.name], "<br>")
-        print("    <b>Vertext2:</b>", tweet[TweetDocument.vertext2.name], "<br>")
+        print("    <b>Vertext2:</b>", tweet[TweetDocument.vertex2.name], "<br>")
         print("  </li>")
         print("  <br>")

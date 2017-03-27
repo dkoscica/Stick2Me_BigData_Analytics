@@ -85,20 +85,19 @@ class TweepyWrapper:
                 allTweetsFromUser = self.get_all_tweets_from_user(follower.screen_name)
                 self.__allTweetsFromMyFollowers.extend(allTweetsFromUser)
             return self.__allTweetsFromMyFollowers 
-            
         return self.__allTweetsFromMyFollowers 
             
     def get_follower_tweets_which_contain_Stick2Me(self):
         tweetsThatContainStick2Me = []
         for tweet in self.get_all_tweets_from_my_followers():
-            if any(word in tweet.text for word in STICK2_ME_KEYWORDS):
+            if any(word in tweet.text for word in self.STICK2_ME_KEYWORDS):
                 tweetsThatContainStick2Me.append(tweet)
         return tweetsThatContainStick2Me
         
     def get_my_tweets_which_contain_Stick2Me(self):
         tweetsThatContainStick2Me = []
         for tweet in self.get_all_my_tweets():
-            if any(word in tweet.text for word in STICK2_ME_KEYWORDS):
+            if any(word in tweet.text for word in self.STICK2_ME_KEYWORDS):
                 tweetsThatContainStick2Me.append(tweet)
         return tweetsThatContainStick2Me
 

@@ -5,7 +5,9 @@ Created on Wed Feb  1 00:32:35 2017
 @author: Dominik
 """
 
-import nltk
+import nltk 
+from nltk import FreqDist
+
 from tweepy_wrapper import TweepyWrapper
 from util import PrintHelper 
 
@@ -54,8 +56,14 @@ class NLTKWrapper:
                 filteredTokens.append(token)
         return sorted(filteredTokens, key=len)
         
-    def analize_text(self, text):
+    def analize_text(self, collection_name, text):
         #print("Text: " + text)
+        
+        #db.tweets.From_2016_12_23_To_2016_12_30
+        formated_date = collection_name.strip("db.tweets.From_").replace("_To_", " - ").replace("_", ".")
+        image_name = "nltk_" + collection_name.strip("db.tweets.From_") + ".png"
+        #print(formated_date)
+        #print(image_name)
         
         normalizedText = self.normalize(text)
         tokens = self.tokenize(normalizedText)
@@ -65,14 +73,16 @@ class NLTKWrapper:
         #print("Collocations:", self.collocations(normalizedText))
         #print("Lexical diversity:", self.lexical_diversity(normalizedText))
         
-        print("<h3>Text mining 15.01.2017 – 22.01.2017</h3><br>")
-        print("<b>Tokens: </b>", tokens_without_punctuation)
+        print("<h3>Text mining " + formated_date + "</h3><br>")
+        print("<b>Tokens: </b>", set(tokens_without_punctuation))
         print("<b>Collocations: </b>", self.collocations(normalizedText))
         print("<br><b>Lexical diversity: </b>", self.lexical_diversity(normalizedText))
         
         self.print_top_words_from_text(normalizedText) 
         
         print("<br>")
+        print('<img src="Images/' + image_name + '">')
+
         for concordance_word in self.__concordance_words:
             self.print_concordance_result(tokens_without_punctuation, concordance_word)
     
@@ -118,7 +128,8 @@ class NLTKWrapper:
 
     def print_concordance_result(self, text_list, word):
         print("Concordance: " + "<b>" + word + "</b>")
-        self.concordance(text_list, word)
         print("<br>")
+        self.concordance(text_list, word)
+        print("<br><br>")
         
     
