@@ -1,0 +1,10 @@
+name: environment
+
+dependencies:
+  - python=3.6
+  - tweepy
+  - pymongo
+  - matplotlib
+  - nltk
+  - networkx
+  - plotly
