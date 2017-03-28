@@ -32,12 +32,12 @@ def main():
     tweepyWrapper.print_all_tweets_from_me()
     tweepyWrapper.print_retweets_of_me()
     
-    allFollowerTweetsWhichContainStick2Me = tweepyWrapper.get_follower_tweets_which_contain_Stick2Me()
-    tweepyWrapper.print_all_tweets_which_contain_Stick2Me()
+    #allFollowerTweetsWhichContainStick2Me = tweepyWrapper.get_follower_tweets_which_contain_Stick2Me()
+    #tweepyWrapper.print_all_tweets_which_contain_Stick2Me()
 
     pyMongoWrapper = PyMongoWrapper()
     #pyMongoWrapper.insert_all_tweets(allFollowerTweetsWhichContainStick2Me)   
-    pyMongoWrapper.print_all_collection_tweets()
+    #pyMongoWrapper.print_all_collection_tweets()
 
     
     collectionNames = pyMongoWrapper.get_all_collection_names()

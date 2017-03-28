@@ -1,13 +1,12 @@
 name: environment
 
 dependencies:
-  - python = 3.6
+  - python=3.5
   - jupyter_client
   - ipykernel
   - pip:
     - tweepy
     - pymongo
-    - matplotlib
     - nltk
     - networkx
     - plotly
