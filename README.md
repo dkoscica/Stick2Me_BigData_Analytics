@@ -1,5 +1,7 @@
 ## To start the Jupyter Notebook simply click on:
 [![Binder](http://mybinder.org/badge.svg)](http://mybinder.org:/repo/dkoscica/stick2me_bigdata_analytics)
+## If the Jupyter Notebook won't open click on:
+[Index.ipynb](https://github.com/dkoscica/Stick2Me_BigData_Analytics/blob/master/index.ipynb)
 
 ## MongoDB
 Contains all MongoDB scripts.
