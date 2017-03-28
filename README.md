@@ -1,3 +1,6 @@
+## To start the Jupyter Notebook simply click on:
+[![Binder](http://mybinder.org/badge.svg)](http://mybinder.org:/repo/dkoscica/stick2me_bigdata_analytics)
+
 ## MongoDB
 Contains all MongoDB scripts.
 
@@ -30,6 +33,3 @@ Wrapper class used for analysis via the sna python library.
 
 #### main.py
 Main class which is used to instantiate and manipulate with various wrapper classes.
-
-## To start the Jupyter Notebook simply click on:
-[![Binder](http://mybinder.org/badge.svg)](http://mybinder.org:/repo/dkoscica/stick2me_bigdata_analytics)
