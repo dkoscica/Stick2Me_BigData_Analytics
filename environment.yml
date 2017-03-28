@@ -1,10 +1,7 @@
 name: environment
 
 dependencies:
-  - python >=3.5
-  - anaconda
-  - numpy
-  - pandas
+  - python = 3.6
   - pip:
     - tweepy
     - pymongo
