@@ -2,6 +2,8 @@ name: environment
 
 dependencies:
   - python = 3.6
+  - jupyter_client
+  - ipykernel
   - pip:
     - tweepy
     - pymongo
