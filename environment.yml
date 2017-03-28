@@ -1,9 +1,7 @@
 name: environment
 
 dependencies:
-  - python=3.5
-  - jupyter_client
-  - ipykernel
+  - python=3.4
   - pip:
     - tweepy
     - pymongo
