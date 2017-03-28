@@ -2,6 +2,8 @@ name: environment
 
 dependencies:
   - python=3.6
+
+- pip:
   - tweepy
   - pymongo
   - matplotlib
