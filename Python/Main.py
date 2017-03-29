@@ -63,7 +63,7 @@ def main():
     """
     SNA
     """
-    targetCollectionName = "tweets.From_2017_02_01_To_2017_02_08"
+    targetCollectionName = "tweets.all"
     for collectionName in collectionNames:
         if collectionName in targetCollectionName:
             PrintHelper.print_header("Collection name: " + collectionName)
