@@ -63,13 +63,12 @@ def main():
     """
     SNA
     """
-    targetCollectionName = "tweets.From_2017_02_08_To_2017_02_15"
+    targetCollectionName = "tweets.From_2017_02_01_To_2017_02_08"
     for collectionName in collectionNames:
         if collectionName in targetCollectionName:
             PrintHelper.print_header("Collection name: " + collectionName)
             vertexes = pyMongoWrapper.get_tweet_vertexes_for_collection(collectionName) 
             SNAWrapper(collectionName, vertexes).create_sna_analysis_html()
             #SNAWrapper(collectionName, vertexes).create_sna_analysis()
-            break
            
 if __name__ == "__main__": main()
